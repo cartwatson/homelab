@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# script to quicly pull up the logs of the minecraft servers
+# script to pull up the logs of the minecraft servers
 
 SESH="proxmox"
 containervm="container-vm"
@@ -32,9 +32,5 @@ else
   fi
 fi
 
-# switch session if in session, else attach
-if [ -n "$TMUX" ]; then
-  tmux switch-client -t "$SESH"
-else
-  tmux attach-session -t "$SESH"
-fi
+# attempt to switch clients, if fails attach
+tmux switch-client -t "$SESH" || tmux attach-session -t "$SESH"
