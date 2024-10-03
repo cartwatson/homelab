@@ -1,0 +1,80 @@
+services:
+  # basic server
+  # vanilla:
+  #   image: itzg/minecraft-server:java21-alpine
+  #   tty: true
+  #   stdin_open: true
+  #   ports:
+  #     - "5000:25565"
+  #   environment:
+  #     EULA: "TRUE"
+  #     VERSION: 1.21.1
+  #     TYPE: FABRIC
+  #     ICON: ../meta/server-icon.jpg
+  #     OVERRIDE_ICON: TRUE # needed to change image at all
+  #     MOTD: "Kuiper: A Vanilla World, hosted by Garamond"
+  #     EXISTING_WHITELIST_FILE: SYNCHRONIZE
+  #     WHITELIST: |
+  #       garamond
+  #       Irion7
+  #     # NOTE: eventually useful settings
+  #     # MAX_PLAYERS: 20
+  #     # OPS: |
+  #     #   garamond
+  #   volumes:
+  #     - ./vanilla/data:/data
+  #     - ./vanilla/meta:/meta
+
+  # old 2020 realm
+  # aureus:
+  #   image: itzg/minecraft-server
+  #   tty: true
+  #   stdin_open: true
+  #   ports:
+  #     - "5001:25565"
+  #   environment:
+  #     EULA: "TRUE"
+  #   volumes:
+  #     - ./aureus/data:/data
+
+  tekkit:
+    image: itzg/minecraft-server:java8-alpine
+    tty: true
+    stdin_open: true
+    ports:
+      - "5002:25565"
+    environment:
+      EULA: "TRUE"
+      VERSION: 1.2.5
+      TYPE: CUSTOM
+      CUSTOM_SERVER: ./Tekkit.jar
+      MOTD: "Kuiper02: A Tekkit Classic Server"
+      LOG_TIMESTAMP: "TRUE"
+      # WHITELIST: |
+      #   garamond
+    volumes:
+      - ./tekkit/data:/data
+      - ./tekkit/meta:/meta
+
+  # cross platform, not worth it as consoles can't connect
+  nexus:
+    image: itzg/minecraft-server:java21-alpine
+    tty: true
+    stdin_open: true
+    ports:
+      - "5003:25565"
+      - "5004:19132/udp"
+    environment:
+      EULA: "TRUE"
+      TYPE: "PAPER"
+      ICON: ../meta/server-icon.jpg
+      OVERRIDE_ICON: TRUE # needed to change image at all
+      MOTD: "Nexus: A cross platform server\nHosted by garamond"
+      LOG_TIMESTAMP: "TRUE"
+      ONLINE_MODE: "TRUE"
+      PLUGINS: |
+        https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
+        https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
+    volumes:
+      - ./nexus/data:/data
+      - ./nexus/meta:/meta
